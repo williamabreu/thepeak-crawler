@@ -8,7 +8,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import create_engine, engine, orm
 
-from src import config as config_app
+from src.core import config as config_app
 from src.federation import federation
 
 # this is the Alembic Config object, which provides

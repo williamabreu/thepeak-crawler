@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
 
-from src.config import get_postgres_uri
+from src.core.config import get_postgres_uri
 from src.core.ports.unit_of_work import AbstractUnitOfWork
 
 DEFAULT_SESSION_FACTORY = orm.sessionmaker(

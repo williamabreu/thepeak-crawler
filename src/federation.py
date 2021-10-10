@@ -1,8 +1,11 @@
 from typing import Any, Dict, Tuple
 
+from dotenv import load_dotenv
 from sqlalchemy import MetaData
 
-from src.orm import start_mappers
+from src.core.orm import start_mappers
+
+load_dotenv()
 
 AnyDict = Dict[Any, Any]
 
