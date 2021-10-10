@@ -1,20 +1,20 @@
-import logging
 import json
+import logging
 from datetime import datetime
 from typing import Dict
 
-from selenium.webdriver import Chrome
 from selenium.common.exceptions import ElementNotInteractableException
+from selenium.webdriver import Chrome
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
 
 
-def create_track(time: datetime, artist: str, title: str) -> Dict:
+def create_track(time: datetime, artist: str, title: str) -> Dict[str, str]:
     return {
         "songTime": time.isoformat(),
         "songArtist": artist,
-        "songTitle": title
+        "songTitle": title,
     }
 
 
@@ -45,14 +45,16 @@ def main() -> None:
         #   </div>
         # ...
         # </div>
-        songs = driver.find_element_by_class_name('songs')
+        songs = driver.find_element_by_class_name("songs")
 
         content_date = date.text
         content_songs = songs.text.split("\n")
 
     if len(content_songs) % 3 != 0:
-        logger.warning("Something isn't smelling good... "
-                       "The result content isn't multiple of 3.")
+        logger.warning(
+            "Something isn't smelling good... "
+            "The result content isn't multiple of 3."
+        )
 
     result = []
 
@@ -61,13 +63,15 @@ def main() -> None:
         artist: str = content_songs[i - 1]
         title: str = content_songs[i]
 
-        timestamp = datetime.strptime(f"{content_date} {time}", "%B %d, %Y %I:%M %p")
+        timestamp = datetime.strptime(
+            f"{content_date} {time}", "%B %d, %Y %I:%M %p"
+        )
 
         result.append(create_track(timestamp, artist, title))
 
-    with open('result.json', 'w') as fp:
+    with open("result.json", "w") as fp:
         json.dump(result, fp, indent=2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
