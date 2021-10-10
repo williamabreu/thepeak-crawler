@@ -17,7 +17,7 @@ DEFAULT_SESSION_FACTORY = sessionmaker(
 )
 
 
-class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
+class BaseUnitOfWork(AbstractUnitOfWork):
     errors: List[Any]
     session: Session
 
