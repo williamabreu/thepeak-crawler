@@ -24,3 +24,6 @@ class BaseRepository(AbstractRepository, ABC):
         if aggregate:
             self.seen.add(aggregate)
         return aggregate
+
+    def _add(self, aggregate: Aggregate) -> None:
+        self.session.add(aggregate)

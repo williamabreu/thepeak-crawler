@@ -27,6 +27,10 @@ class BaseUnitOfWork(AbstractUnitOfWork):
         self.errors = []
         self.session_factory: sessionmaker = session_factory
 
+    def __enter__(self):  # type: ignore
+        self.session = self.session_factory()
+        return super().__enter__()  # type: ignore
+
     def __exit__(self, *args):  # type: ignore
         super().__exit__(*args)  # type: ignore
         self.session.close()
