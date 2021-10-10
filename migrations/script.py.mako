@@ -1,4 +1,4 @@
-"""${message}
+"""${message}.
 
 Revision ID: ${up_revision}
 Revises: ${down_revision | comma,n}
@@ -16,29 +16,29 @@ branch_labels = ${repr(branch_labels)}
 depends_on = ${repr(depends_on)}
 
 
-def upgrade():
+def upgrade() -> None:
     schema_upgrade()
     if context.get_x_argument(as_dictionary=True).get('data'):
         data_upgrade()
 
 
-def downgrade():
+def downgrade() -> None:
     if context.get_x_argument(as_dictionary=True).get('data'):
         data_downgrade()
     schema_downgrade()
 
 
-def schema_upgrade():
+def schema_upgrade() -> None:
     ${upgrades if upgrades else "pass"}
 
 
-def schema_downgrade():
+def schema_downgrade() -> None:
     ${downgrades if downgrades else "pass"}
 
 
-def data_upgrade():
+def data_upgrade() -> None:
     pass
 
 
-def data_downgrade():
+def data_downgrade() -> None:
     pass
