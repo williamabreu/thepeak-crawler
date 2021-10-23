@@ -31,7 +31,14 @@ class Track(Aggregate):
         self._title = title
 
     @classmethod
-    def create(cls, song_time: datetime, song_artist: str, song_title: str) -> Track:
+    def create(cls, **kwargs: Any) -> Track:
+        """Don't use the constructor, use this factory instead.
+
+        Keyword Args:
+            song_time (datetime): ...
+            song_artist (str): ...
+            song_title (str): ...
+        """
         now = time.generate_now()
         return cls(
             id=uuid4(),
@@ -39,9 +46,9 @@ class Track(Aggregate):
             is_discarded=False,
             registered_at=now,
             updated_at=now,
-            timestamp=song_time,
-            artist=song_artist,
-            title=song_title,
+            timestamp=kwargs['song_time'],
+            artist=kwargs['song_artist'],
+            title=kwargs['song_title'],
         )
 
     def __repr__(self) -> str:
