@@ -3,6 +3,7 @@ from typing import Callable
 from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table
 from sqlalchemy.orm import mapper
 
+import src.crawler.domain.model.track
 from src.crawler.domain import models
 
 tracks: Callable[[MetaData], Table] = lambda metadata: Table(
@@ -19,5 +20,5 @@ tracks: Callable[[MetaData], Table] = lambda metadata: Table(
 
 def start_mappers(metadata: MetaData) -> MetaData:
     tracks_t = tracks(metadata)
-    mapper(models.Track, tracks_t)
+    mapper(src.crawler.domain.model.track.Track, tracks_t)
     return metadata
