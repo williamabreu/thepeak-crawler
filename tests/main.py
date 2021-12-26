@@ -2,9 +2,11 @@ import json
 import logging
 from datetime import datetime
 from typing import Dict
+from time import sleep
 
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver import Chrome
+from selenium.webdriver.support.select import Select
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)
@@ -22,55 +24,63 @@ def main() -> None:
     with Chrome(executable_path="./chromedriver.exe") as driver:
         driver.get("https://www.thepeak.fm/recentlyplayed/")
 
-        while True:
-            try:
-                driver.find_element_by_class_name("moreBtn").click()
-            except ElementNotInteractableException:
-                break
+        for ref_day in ("-1", "-2", "-3", "-4", "-5", "-6"):
+            elem = driver.find_element_by_class_name("dateSelector")
+            date_selector = Select(elem.find_element_by_tag_name("select"))
+            date_selector.select_by_value(ref_day)
 
-        # Format example:
-        # <div class="selectedDate">September 06, 2021</div>
-        date = driver.find_element_by_class_name("selectedDate")
+            sleep(10)
 
-        # Format example:
-        # <div class="songs">
-        #   <div class="song">
-        #     <div class="songTime primary_bgd_color">10:09 AM</div>
-        #     <div class="songThumb">...</div>
-        #     <div class="songInfo">
-        #         <div class="songArtist">Young The Giant</div>
-        #         <div class="songTitle">My Body</div>
-        #         <div class="badge">...</div>
-        #     </div>
-        #   </div>
-        # ...
-        # </div>
-        songs = driver.find_element_by_class_name("songs")
+            while True:
+                try:
+                    driver.find_element_by_class_name("moreBtn").click()
+                except ElementNotInteractableException:
+                    break
 
-        content_date = date.text
-        content_songs = songs.text.split("\n")
+            # Format example:
+            # <div class="selectedDate">September 06, 2021</div>
+            date = driver.find_element_by_class_name("selectedDate")
 
-    if len(content_songs) % 3 != 0:
-        logger.warning(
-            "Something isn't smelling good... "
-            "The result content isn't multiple of 3."
-        )
+            # Format example:
+            # <div class="songs">
+            #   <div class="song">
+            #     <div class="songTime primary_bgd_color">10:09 AM</div>
+            #     <div class="songThumb">...</div>
+            #     <div class="songInfo">
+            #         <div class="songArtist">Young The Giant</div>
+            #         <div class="songTitle">My Body</div>
+            #         <div class="badge">...</div>
+            #     </div>
+            #   </div>
+            # ...
+            # </div>
+            songs = driver.find_element_by_class_name("songs")
 
-    result = []
+            content_date = date.text
+            content_songs = songs.text.split("\n")
 
-    for i in range(len(content_songs) - 1, -1, -3):
-        time: str = content_songs[i - 2]
-        artist: str = content_songs[i - 1]
-        title: str = content_songs[i]
+            if len(content_songs) % 3 != 0:
+                logger.warning(
+                    "Something isn't smelling good... "
+                    "The result content isn't multiple of 3."
+                )
 
-        timestamp = datetime.strptime(
-            f"{content_date} {time}", "%B %d, %Y %I:%M %p"
-        )
+            result = []
 
-        result.append(create_track(timestamp, artist, title))
+            for i in range(len(content_songs) - 1, -1, -3):
+                time: str = content_songs[i - 2]
+                artist: str = content_songs[i - 1]
+                title: str = content_songs[i]
 
-    with open("result.json", "w") as fp:
-        json.dump(result, fp, indent=2)
+                timestamp = datetime.strptime(
+                    f"{content_date} {time}", "%B %d, %Y %I:%M %p"
+                )
+
+                result.append(create_track(timestamp, artist, title))
+
+            filename = content_date.replace(" ", "-").replace(",", "")
+            with open(f"json/{filename}.json", "w") as fp:
+                json.dump(result, fp, indent=2)
 
 
 if __name__ == "__main__":
