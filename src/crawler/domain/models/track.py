@@ -1,7 +1,8 @@
 from __future__ import annotations
+
 from datetime import datetime
 from typing import Any
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from kingdom_sdk.domain.aggregate import Aggregate
 from kingdom_sdk.utils import time
@@ -12,18 +13,16 @@ class Track(Aggregate):
     _artist: str
     _title: str
 
-    __slots__ = ('_timestamp', '_artist', '_title')
-
     def __init__(
         self,
-        id: UUID,  # noqa
+        id: UUID,
         version: int,
         is_discarded: bool,
         registered_at: datetime,
         updated_at: datetime,
         timestamp: datetime,
         artist: str,
-        title: str
+        title: str,
     ) -> None:
         super().__init__(id, version, is_discarded, registered_at, updated_at)
         self._timestamp = timestamp
@@ -46,17 +45,17 @@ class Track(Aggregate):
             is_discarded=False,
             registered_at=now,
             updated_at=now,
-            timestamp=kwargs['song_time'],
-            artist=kwargs['song_artist'],
-            title=kwargs['song_title'],
+            timestamp=kwargs["song_time"],
+            artist=kwargs["song_artist"],
+            title=kwargs["song_title"],
         )
 
     def __repr__(self) -> str:
-        return self._base_repr(self.id.hex)
+        return str(self._base_repr(self.id.hex))
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Track):
-            return self.id == other.id
+            return bool(self.id == other.id)
         else:
             return False
 

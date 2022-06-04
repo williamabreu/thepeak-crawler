@@ -1,3 +1,5 @@
+# type: ignore
+
 """${message}.
 
 Revision ID: ${up_revision}
@@ -7,7 +9,7 @@ Create Date: ${create_date}
 """
 import sqlalchemy as sa
 ${imports if imports else ""}
-from alembic import op, context
+from alembic import context, op
 
 # revision identifiers, used by Alembic.
 revision = ${repr(up_revision)}
@@ -16,29 +18,29 @@ branch_labels = ${repr(branch_labels)}
 depends_on = ${repr(depends_on)}
 
 
-def upgrade() -> None:
+def upgrade():
     schema_upgrade()
     if context.get_x_argument(as_dictionary=True).get('data'):
         data_upgrade()
 
 
-def downgrade() -> None:
+def downgrade():
     if context.get_x_argument(as_dictionary=True).get('data'):
         data_downgrade()
     schema_downgrade()
 
 
-def schema_upgrade() -> None:
+def schema_upgrade():
     ${upgrades if upgrades else "pass"}
 
 
-def schema_downgrade() -> None:
+def schema_downgrade():
     ${downgrades if downgrades else "pass"}
 
 
-def data_upgrade() -> None:
+def data_upgrade():
     pass
 
 
-def data_downgrade() -> None:
+def data_downgrade():
     pass

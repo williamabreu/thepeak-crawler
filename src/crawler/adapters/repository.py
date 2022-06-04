@@ -1,6 +1,7 @@
-from kingdom_sdk.adapters.repository import BaseRepository
-from src.crawler.domain import model
+from kingdom_sdk.adapters.repository import SQLAlchemyRepository
+
+from src.crawler.domain import models
 
 
-class TracksRepository(BaseRepository):
-    _model = model.Track
+class TracksRepository(SQLAlchemyRepository):
+    _model = models.Track
