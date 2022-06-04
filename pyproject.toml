@@ -1,24 +1,43 @@
 [tool.poetry]
 name = "thepeak-crawler"
-version = "0.1.0"
-description = ""
+version = "1.0.0"
+description = "Automatic playlist generator for Spotify"
 authors = ["William Abreu <william@t10.digital>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-python-dotenv = "^0.19.0"
-selenium = "^3.141.0"
-spotipy = "^2.19.0"
+python = "^3.10"
+selenium = "^4.2.0"
 SQLAlchemy = "^1.4.25"
 alembic = "^1.7.4"
 psycopg2-binary = "^2.9.1"
-kingdom-sdk = "0.3.0dev1"
+kingdom-sdk = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
+black = "^22.3.0"
+mypy = "^0.960"
+flake8 = "^4.0.1"
 pre-commit = "^2.15.0"
-mypy = "^0.910"
 pydocstyle = "^6.1.1"
+isort = "^5.9.3"
+pyclean = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+# See: https://mypy.readthedocs.io/en/stable/config_file.html
+
+[tool.mypy]
+exclude = "(\\..*|env|venv|__pycache__)/$"
+files = ["src"]
+python_version = "3.9"
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+show_error_codes = true
+pretty = true
