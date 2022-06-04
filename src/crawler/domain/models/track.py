@@ -13,8 +13,6 @@ class Track(Aggregate):
     _artist: str
     _title: str
 
-    __slots__ = ("_timestamp", "_artist", "_title")
-
     def __init__(
         self,
         id: UUID,

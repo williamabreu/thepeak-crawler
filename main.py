@@ -15,7 +15,8 @@ def main(
     tracks = webdriver.run()
 
     with uow:
-        map(uow.tracks.add, tracks)
+        for track in tracks:
+            uow.tracks.add(track)
         uow.commit()
 
 

@@ -3,6 +3,7 @@ version: '3.3'
 services:
   selenium:
     image: selenium/standalone-chrome:102.0
+    shm_size: 2gb
     restart: always
     ports:
       - 4444:4444
@@ -23,7 +24,6 @@ services:
       dockerfile: Dockerfile
     working_dir: /opt/thepeak-crawler
     command: ["./wait-for-it.sh", "db:5432", "selenium:4444", "--", "python", "main.py"]
-    restart: always
     depends_on:
       - db
       - selenium
