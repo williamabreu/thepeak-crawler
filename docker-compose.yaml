@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  selenium:
+    image: selenium/standalone-chrome:102.0
+    restart: always
+    ports:
+      - 4444:4444
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: peak_user
+      POSTGRES_PASSWORD: peak_pass
+      POSTGRES_DB: thepeak-crawler
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /opt/thepeak-crawler
+    command: ["./wait-for-it.sh", "db:5432", "selenium:4444", "--", "python", "main.py"]
+    restart: always
+    depends_on:
+      - db
+      - selenium
+    env_file:
+      - .env
+
+volumes:
+  dbdata:
