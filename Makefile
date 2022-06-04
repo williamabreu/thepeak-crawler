@@ -1,4 +1,6 @@
-# Use this makefile to run development procedures.
+PROJECT=thepeak_crawler
+PROJECT_APP=${PROJECT}_app_1
+PROJECT_DB=${PROJECT}_db_1
 
 style: black flake8 isort pydocstyle mypy requirements
 	@echo "🎉 style passed!"
@@ -34,3 +36,23 @@ clean:
 	rm -rf .pytest_cache
 	rm -rf .aws-sam
 	@echo "♲ clean done."
+
+build: clean
+	git submodule init
+	git submodule update
+	docker-compose -p ${PROJECT} build
+	@echo "📦 build complete."
+
+up:
+	docker-compose -p ${PROJECT} up -d
+	docker container logs --follow ${PROJECT_APP}
+
+down:
+	docker-compose -p ${PROJECT} down
+	@echo "✅ containers stopped."
+
+shell:
+	docker exec -it ${PROJECT_APP} sh
+
+db-shell:
+	docker exec -it ${PROJECT_DB} sh
