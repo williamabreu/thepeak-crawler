@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: Dockerfile
     working_dir: /opt/thepeak-crawler
-    command: ["./wait-for-it.sh", "db:5432", "selenium:4444", "--", "python", "main.py"]
+    command: ["./wait-for-it.sh", "db:5432", "selenium:4444", "--", "python", "-m", "src"]
     depends_on:
       - db
       - selenium

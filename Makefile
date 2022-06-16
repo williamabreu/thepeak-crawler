@@ -34,7 +34,6 @@ clean:
 	pyclean -v .
 	rm -rf .mypy_cache
 	rm -rf .pytest_cache
-	rm -rf .aws-sam
 	@echo "♲ clean done."
 
 build: clean

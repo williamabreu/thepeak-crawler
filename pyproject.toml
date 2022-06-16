@@ -3,9 +3,10 @@ name = "thepeak-crawler"
 version = "1.0.0"
 description = "Automatic playlist generator for Spotify"
 authors = ["William Abreu <william@t10.digital>"]
+license = "MIT License"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 selenium = "^4.2.0"
 SQLAlchemy = "^1.4.25"
 alembic = "^1.7.4"
@@ -29,7 +30,7 @@ build-backend = "poetry.core.masonry.api"
 # See: https://mypy.readthedocs.io/en/stable/config_file.html
 
 [tool.mypy]
-exclude = "(\\..*|env|venv|__pycache__)/$"
+exclude = "(\\..*|venv|__pycache__|wait-for-it)/$"
 files = ["src"]
 python_version = "3.9"
 ignore_missing_imports = true
