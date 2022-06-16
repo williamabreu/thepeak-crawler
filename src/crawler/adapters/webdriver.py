@@ -17,7 +17,7 @@ logger.setLevel(logging.WARNING)
 
 class SeleniumWebdriver(Webdriver):
     def __init__(self) -> None:
-        self._sleep_time = 5
+        self._sleep_time = 10
         self._driver_url = CrawlerConfig.selenium_url
         self._playlist_url = "https://www.thepeak.fm/recentlyplayed/"
 
