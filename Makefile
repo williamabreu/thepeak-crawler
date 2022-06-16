@@ -14,7 +14,7 @@ flake8:
 	@echo "✅ flake done."
 
 isort:
-	isort . --profile black
+	isort src tests --profile black
 	@echo "✅ isort done."
 
 pydocstyle:
