@@ -8,7 +8,7 @@ RUN echo "America/Vancouver" > /etc/timezone
 
 # Install dependencies.
 COPY ./requirements.txt /opt/thepeak-crawler
-RUN pip install -r requirements.txt
+RUN pip --disable-pip-version-check install -r requirements.txt
 COPY ./main.py /opt/thepeak-crawler/
 COPY ./src /opt/thepeak-crawler/src
 COPY ./wait-for-it/wait-for-it.sh /opt/thepeak-crawler
